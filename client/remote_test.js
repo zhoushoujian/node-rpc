@@ -10,17 +10,19 @@ return Promise.all(remoteIp.map((v, i) => {
             return (str += `${item} `)
         });
         param = param[param.length - 1];
-        console.log("param", param)
+        console.info("param: ", param)
         return remote(i, function (param) {
             return execFunc(param)
         },[param])
     }))
     .then((result) => new Promise(function (res, rej) {
-        logger.debug("remote info1", result);
+        result = result.toString();
+        console.debug("---------------  result  ---------------");
+        console.log("result", result)
         res(result);
     }))
     .catch(error => {
-        logger.error("remote info error", error);
+        logger.error("remote info error", error.stack || error.toString());
         process.exit(0)
     });
 
