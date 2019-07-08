@@ -139,7 +139,7 @@ function writeFile(buffer) {
  * @param {*} InitLogger
  */
 function InitLogger() {
-     console.info("初始化日志系统   ok");
+    //  console.info("初始化日志系统   ok");
 }
 
 function loggerInFile(level, data, ...args) {

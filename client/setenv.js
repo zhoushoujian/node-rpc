@@ -46,4 +46,4 @@ function add(file) {
       env[key] = value;
     });
 }
-logger.info("关联系统临时变量 ok");
+// logger.info("关联系统临时变量 ok");

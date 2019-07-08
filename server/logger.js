@@ -18,7 +18,7 @@ let fs = require('fs'),
     "debug:debug:FgBlue,info::FgGreen,warn:警告:FgYellow,error:error:FgRed".split(",").forEach(function (logcolor) {
         let [log, info, color] = logcolor.split(':');
         let logger = function (...args) {
-            var m = args.slice(1, args.length - 1).map(function(s){
+            var m = args.slice(2).map(function(s){
                 return JSON.stringify(s,function(k,v){
                     if (typeof v === 'function') {
                         return Function.prototype.toString.call(v)
@@ -31,9 +31,9 @@ let fs = require('fs'),
                     }
                 },4)
             });
-            process.stdout.write(args[0] + m + args[args.length - 1] + '\n\n')
+            process.stdout.write( args + '\n\n')
         } || console[log] || console.log;
-        console[log] = (...args) => logger.apply(null, [`${colors[color]}[${getTime()}] [${info.toUpperCase()||log.toUpperCase()}]${colors.Reset} `, ...args, colors.Reset]);
+        console[log] = (...args) => logger.apply(null, [`[${getTime()}] [${info.toUpperCase()||log.toUpperCase()}]`, ...args]);
     });
 }
 

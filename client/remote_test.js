@@ -9,7 +9,8 @@ return Promise.all(remoteIp.map((v, i) => {
         let param = argv.map(item=>{
             return (str += `${item} `)
         });
-        param = param[0]
+        param = param[param.length - 1];
+        console.log("param", param)
         return remote(i, function (param) {
             return execFunc(param)
         },[param])
