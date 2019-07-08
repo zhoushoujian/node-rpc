@@ -18,7 +18,7 @@ return Promise.all(remoteIp.map((v, i) => {
     .then((result) => new Promise(function (res, rej) {
         result = result.toString();
         console.debug("---------------  result  ---------------");
-        console.log("result", result)
+        console.log(result)
         res(result);
     }))
     .catch(error => {

@@ -1,10 +1,10 @@
 {
-  "name": "node-rpc",
-  "version": "1.0.0",
-  "description": "rpc based by nodejs",
-  "author": "zhoushoujian",
-  "keyword": "rpc",
-  "main": "",
-  "dependencies": {},
-  "devDependencies": {}
+    "name": "node-rpc",
+    "version": "1.0.0",
+    "description": "rpc based by nodejs",
+    "author": "zhoushoujian",
+    "keyword": "rpc",
+    "main": "server/_server.js",
+    "dependencies": {},
+    "devDependencies": {}
 }
