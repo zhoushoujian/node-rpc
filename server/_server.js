@@ -58,26 +58,26 @@ function _server() {
 
 let numCPUs = os.cpus().length;
 logger.info("numCPUs", numCPUs)
-if (cluster.isMaster) {
-    for (var i = 0; i < 1; i++) {
-        cluster.fork();
-    }
-    cluster.on('listening', function (worker, address) {
-        //console.log('listening: worker ' + worker.process.pid + ', port: ' + address.port);
-    });
-    cluster.on('online', function (worker) {
-        //console.log('[master] ' + 'online: worker' + worker.id);
-    });
-    cluster.on('disconnect', function (worker) {
-        console.log('[master] ' + 'disconnect: worker' + worker.id);
-    });
-    cluster.on('exit', function (worker, code, signal) {
-        console.warn('worker ' + worker.process.pid + ' died');
-    });
-} else {
+// if (cluster.isMaster) {
+//     for (var i = 0; i < 1; i++) {
+//         cluster.fork();
+//     }
+//     cluster.on('listening', function (worker, address) {
+//         //console.log('listening: worker ' + worker.process.pid + ', port: ' + address.port);
+//     });
+//     cluster.on('online', function (worker) {
+//         //console.log('[master] ' + 'online: worker' + worker.id);
+//     });
+//     cluster.on('disconnect', function (worker) {
+//         console.log('[master] ' + 'disconnect: worker' + worker.id);
+//     });
+//     cluster.on('exit', function (worker, code, signal) {
+//         console.warn('worker ' + worker.process.pid + ' died');
+//     });
+// } else {
     // logger.info("cluster.worker.id", cluster.worker.id)
     //执行任务的进程
-    if (cluster.worker.id === 1) {
+    // if (cluster.worker.id === 1) {
         _server();
         server.listen({
             port: process.env.SERVER_PORT,
@@ -87,7 +87,7 @@ if (cluster.isMaster) {
             //logger.info('启动服务成功！');
             logger.info(`正在监听(http://${handle["/local/ip"]()}:${process.env.SERVER_PORT})`);
         });
-    } else if (cluster.worker.id === 2) {
+    // } else if (cluster.worker.id === 2) {
         // _server();
         // server.listen({
         //     port: process.env.CHECK_SERVER_PORT,
@@ -97,7 +97,7 @@ if (cluster.isMaster) {
         //     //logger.info('启动服务成功！');
         //     logger.info(`11111正在监听(http://${handle["/local/ip"]()}:${process.env.CHECK_SERVER_PORT})`);
         // });
-    }
+    // }
     //捕获异常
     process.on('uncaughtException', function (err) {
         if (err == "Error: kill ESRCH") {
@@ -106,4 +106,4 @@ if (cluster.isMaster) {
             logger.warn('Caught exception: ' + err);
         }
     });
-}
+// }
