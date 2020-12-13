@@ -1,11 +1,13 @@
-'use strict'
-let item_reg = /^\s*set\s+([^\s]+)\s*=([\s\S]*)$/im;
-let call_reg = /^\s*call\s+([\s\S]+?)\s*$/im
-let env = process.env;
-var fs = require("fs");
-var path = require("path");
-var gbk2utf8 = require("./gbk2utf8");
-var file = path.resolve(__dirname, 'setup.bat');
+/* eslint-disable camelcase */
+const env = process.env;
+const fs = require("fs");
+const path = require("path");
+const gbk2utf8 = require("./gbk2utf8");
+
+const item_reg = /^\s*set\s+([^\s]+)\s*=([\s\S]*)$/im;
+const call_reg = /^\s*call\s+([\s\S]+?)\s*$/im
+
+const file = path.resolve(__dirname, 'setup.bat');
 add(file);
 
 function get(v, file) {
@@ -27,23 +29,25 @@ function add(file) {
       return item_reg.test(a) || call_reg.test(a);
     })
     .forEach(function (a) {
-      var match = a.match(call_reg);
+      const match = a.match(call_reg);
       if (match) {
-        var new_file = get(match[1], file);
-        var exts = ["bat", "cmd", "sh"];
-        var ext = "";
+        const new_file = get(match[1], file);
+        const exts = ["bat", "cmd", "sh"];
+        let ext = "";
         do {
-          var filename = ext ? new_file + "." + ext : new_file;
+          const filename = ext ? new_file + "." + ext : new_file;
           if (fs.existsSync(filename) && fs.statSync(filename).isFile()) {
             return add(filename);
           }
+        // eslint-disable-next-line no-cond-assign
         } while (ext = exts.shift());
         return;
       }
-      var matchs = a.match(item_reg);
-      var key = matchs[1];
-      var value = get(matchs[2], file);
+      const matchs = a.match(item_reg);
+      const key = matchs[1];
+      const value = get(matchs[2], file);
       env[key] = value;
     });
 }
+
 logger.info("关联系统临时变量 ok");

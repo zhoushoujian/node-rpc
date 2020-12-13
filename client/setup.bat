@@ -1,2 +1,2 @@
-set REMOTE_IP=[192.168.1.4]
+set REMOTE_IP=[localhost]
 set SERVER_PORT=1997
