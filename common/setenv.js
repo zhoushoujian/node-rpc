@@ -1,25 +1,24 @@
 /* eslint-disable camelcase */
-const env = process.env;
-const fs = require("fs");
-const path = require("path");
-const gbk2utf8 = require("./gbk2utf8");
+
+const fs = require('fs');
+const path = require('path');
+const gbk2utf8 = require('./gbk2utf8');
 
 const item_reg = /^\s*set\s+([^\s]+)\s*=([\s\S]*)$/im;
-const call_reg = /^\s*call\s+([\s\S]+?)\s*$/im
+const call_reg = /^\s*call\s+([\s\S]+?)\s*$/im;
+const env = process.env;
 
 const file = path.resolve(__dirname, 'setup.bat');
 add(file);
 
 function get(v, file) {
-  return v
-    .replace(/%~dp0/ig, path.join(path.parse(file).dir, "./"))
-    .replace(/%.*?%/g, function (match) {
-      if (match.length === 2) {
-        return "%";
-      } else {
-        return env[match.slice(1, match.length - 1)];
-      }
-    });
+  return v.replace(/%~dp0/gi, path.join(path.parse(file).dir, './')).replace(/%.*?%/g, function (match) {
+    if (match.length === 2) {
+      return '%';
+    } else {
+      return env[match.slice(1, match.length - 1)];
+    }
+  });
 }
 
 function add(file) {
@@ -32,15 +31,15 @@ function add(file) {
       const match = a.match(call_reg);
       if (match) {
         const new_file = get(match[1], file);
-        const exts = ["bat", "cmd", "sh"];
-        let ext = "";
+        const exts = ['bat', 'cmd', 'sh'];
+        let ext = '';
         do {
-          const filename = ext ? new_file + "." + ext : new_file;
+          const filename = ext ? new_file + '.' + ext : new_file;
           if (fs.existsSync(filename) && fs.statSync(filename).isFile()) {
             return add(filename);
           }
-        // eslint-disable-next-line no-cond-assign
-        } while (ext = exts.shift());
+          // eslint-disable-next-line no-cond-assign
+        } while ((ext = exts.shift()));
         return;
       }
       const matchs = a.match(item_reg);
@@ -49,5 +48,4 @@ function add(file) {
       env[key] = value;
     });
 }
-
-logger.info("关联系统临时变量 ok");
+logger.info('关联系统临时变量 ok');
