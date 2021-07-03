@@ -45,14 +45,14 @@ const remote = function (i, f, params, ...args) {
       host: remoteIp[i],
     };
     tcpClient.connect(options, function () {
-      logger.log('connected to Server');
+      logger.log('connecting to Server', options);
       const func = 'return ' + f.toString() + `.apply(this, ${params})`;
       tcpClient.write(crypt.encrypt(func));
     });
 
     tcpClient.on('end', function () {
-      logger.info('data end!');
-      resolve('end');
+      logger.error('connect fail!');
+      reject(new Error('connect fail!'));
     });
 
     tcpClient.on('error', function (err) {

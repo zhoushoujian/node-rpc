@@ -14,9 +14,10 @@ module.exports = {
     },
   },
   globals: {
-    logger: true,
-    before: true,
-    execFunc: true,
+    logger: 'readonly',
+    before: 'readonly',
+    execFunc: 'readonly',
+    checkState: 'readonly',
   },
   env: {
     browser: true,
